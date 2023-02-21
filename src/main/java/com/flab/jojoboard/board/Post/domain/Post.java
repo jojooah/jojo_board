@@ -1,10 +1,12 @@
 package com.flab.jojoboard.board.Post.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.ibatis.type.Alias;
 
 
-@Data
+@Getter
+@Setter
 @Alias(value = "Post")
 public class Post{
     int id;                             //시퀀스

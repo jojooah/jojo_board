@@ -38,7 +38,7 @@ public class PostController {
 
         } catch (Exception e) {
             responseBase.setMessage("의도하지 못한 에러");
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
         return responseBase;
 
@@ -77,7 +77,7 @@ public class PostController {
 
         } catch (Exception e) {
             responseBase.setMessage("의도하지 못한 에러");
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
         return responseBase;
     }
@@ -95,7 +95,7 @@ public class PostController {
 
         } catch (Exception e) {
             responseBase.setMessage("의도하지 못한 에러");
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
         return responseBase;
     }
@@ -113,7 +113,7 @@ public class PostController {
 
         } catch (Exception e) {
             responseBase.setMessage("의도하지 못한 에러");
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
         return responseBase;
     }
