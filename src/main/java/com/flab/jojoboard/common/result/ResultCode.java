@@ -7,6 +7,7 @@ import lombok.Setter;
 public enum ResultCode {
 
     SUCCESS(1000, "성공"),
+    NEED_TO_LOGIN(1001,"로그인 해주세요."),
 
 
     POST_NOT_EXISTS(2000, "해당 글이 존재하지 않습니다."),
