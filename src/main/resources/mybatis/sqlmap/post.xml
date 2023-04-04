@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flab.jojoboard.board.Post.dao.PostMapper">
+
+    <select id="selectPostByPostId" parameterType="int" resultType="Post">
+        SELECT /*selectPostByPostId*/
+            id
+          , title
+          , content
+          , board_id
+          , reg_date
+          , upd_date
+          , non_mem_nick
+          , non_mem_pwd
+          , reg_id
+        FROM
+            post
+        WHERE
+            id = #{postId}
+        AND
+            db_status = 'OK'
+    </select>
+
+    <select id="selectPostsByBoardId" parameterType="int" resultType="hashMap">
+        SELECT /*selectPostsByBoardId*/
+            id
+          , title
+          , reg_id
+          , reg_date
+          , upd_date
+        FROM
+            post
+        WHERE
+            board_id = #{boardId}
+        AND
+            db_status='OK'
+    </select>
+
+    <insert id="insertPost" parameterType="postDTO">
+        INSERT /*insertPost*/
+        INTO post
+            (
+                title
+              , content
+              , non_mem_nick
+              , non_mem_pwd
+              , board_id
+              , reg_id
+              , written_by_mem
+              , reg_date
+            )
+        VALUES
+            (
+                #{postDTO.title}
+              , #{postDTO.content}
+              , #{postDTO.nonMemNick}
+              , #{postDTO.nonMemPwd}
+              , #{postDTO.boardId}
+              , #{postDTO.regId}
+              , #{postDTO.writtenByMem}
+              , NOW()
+            )
+    </insert>
+
+    <update id="updatePost" parameterType="postDTO" >
+        UPDATE /*updatePost*/
+            post
+        SET
+            title = #{postDTO.title}
+          , content = #{postDTO.content}
+          , upd_date = NOW()
+        WHERE
+            id = #{postDTO.id}
+    </update>
+
+    <update id="deletePostByPostId" parameterType="int">
+        UPDATE /*deletePostByPostId*/
+            post
+        SET
+            db_status = 'DEL'
+        WHERE
+            id = #{postId}
+    </update>
+</mapper>
