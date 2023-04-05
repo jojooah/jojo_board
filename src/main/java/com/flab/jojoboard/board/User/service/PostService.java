@@ -1,4 +1,4 @@
-package com.flab.jojoboard.board.Post.service;
+package com.flab.jojoboard.board.User.service;
 
 import com.flab.jojoboard.board.Post.dao.PostMapper;
 import com.flab.jojoboard.board.Post.domain.Post;

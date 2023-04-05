@@ -7,9 +7,14 @@ import lombok.Setter;
 public enum ResultCode {
 
     SUCCESS(1000, "성공"),
-    NEED_TO_LOGIN(1001,"로그인 해주세요."),
 
+    //1000번대 유저에러
+    NEED_USER_ID(1001,"아이디를 입력하세요."),
+    NEED_PWD(1002,"비밀번호를 입력하세요"),
+    USER_ID_NOT_EXIST(1002,"가입되지 않은 아이디입니다."),
+    WRONG_PWD(1003,"비밀번호가 일치하지 않습니다."),
 
+    //2000번대 게시글 관련 에러
     POST_NOT_EXISTS(2000, "해당 글이 존재하지 않습니다."),
     POSTLIST_NOT_EXISTS(2001, "해당 게시판에 작성된 글이 없습니다."),
     FAIL_INSERT_POST(2003,"게시글 등록에 실패했습니다."),

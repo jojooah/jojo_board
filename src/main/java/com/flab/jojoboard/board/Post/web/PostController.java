@@ -3,7 +3,7 @@ package com.flab.jojoboard.board.Post.web;
 import com.flab.jojoboard.board.Post.domain.Post;
 import com.flab.jojoboard.board.Post.domain.dto.PostDTO;
 import com.flab.jojoboard.board.Post.service.AuthService;
-import com.flab.jojoboard.board.Post.service.PostService;
+import com.flab.jojoboard.board.User.service.PostService;
 import com.flab.jojoboard.common.domain.ResponseBase;
 import com.flab.jojoboard.common.result.ResultCode;
 import com.flab.jojoboard.common.result.ResultCodeException;
