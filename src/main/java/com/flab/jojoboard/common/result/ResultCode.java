@@ -13,6 +13,16 @@ public enum ResultCode {
     NEED_PWD(1002,"비밀번호를 입력하세요"),
     USER_ID_NOT_EXIST(1002,"가입되지 않은 아이디입니다."),
     WRONG_PWD(1003,"비밀번호가 일치하지 않습니다."),
+    PLEASE_LOGIN(1004,"로그인 해주세요."),
+    USER_ID_ALREADY_EXIST(1005,"이미 가입된 아이디입니다"),
+    NEED_NICK_NAME(1006,"닉네임을 입력하세요."),
+    NICK_NAME_ALREADY_EXIST(1005,"이미 존재하는 닉네임입니다"),
+    NEED_NEW_PWD(1006,"변경할 비밀번호를 입력하세요."),
+    NEED_NEW_PWD_FOR_CHECK(1007,"비밀번호 체크를 위해 한번 더 입력해 주세요."),
+    NEED_OLD_PWD(1008,"기존 비밀번호를 입력하세요."),
+    NEW_PWD_IS_DIFFERENT_FROM_NEW_PWD_FOR_CHECK(1009,"변경할 비밀번호가 서로 일치하지 않습니다."),
+    NOT_CORRECT_OLD_PWD(1010,"기존 비밀번호가 틀렸습니다."),
+    ALREADY_USED_PWD(1011,"기존 비밀번호는 사용하실 수 없습니다."),
 
     //2000번대 게시글 관련 에러
     POST_NOT_EXISTS(2000, "해당 글이 존재하지 않습니다."),

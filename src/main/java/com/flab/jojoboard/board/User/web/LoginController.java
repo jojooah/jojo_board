@@ -7,6 +7,7 @@ import com.flab.jojoboard.common.result.ResultCode;
 import com.flab.jojoboard.common.result.ResultCodeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +34,19 @@ public class LoginController {
 
         } catch (Exception e) {
             responseBase.setMessage("의도하지 못한 에러");
+            responseBase.setResultCode(ResultCode.ERROR_ETC);
             log.error(e.getMessage());
         }
+        return responseBase;
+
+    }
+
+    @GetMapping("/login")
+    public ResponseBase login() {
+        ResponseBase responseBase = new ResponseBase<>();
+
+        responseBase.setData(loginService.getLoginUserInfo());
+        responseBase.setResultCode(ResultCode.SUCCESS);
         return responseBase;
 
     }

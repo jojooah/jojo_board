@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flab.jojoboard.board.User.dao.UserMapper">
+
+    <select id="selectUserByUserId" resultType="User">
+        SELECT /*selectUserByUserId*/
+            id
+          , user_id
+          , pwd
+          , nickname
+          , email
+          , reg_date
+          , upd_date
+          , db_status
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+          AND
+            db_status = 'OK'
+    </select>
+
+    <select id="selectLoginUserByUserId" resultType="LoginUser">
+        SELECT /*selectLoginUserByUserId*/
+            id
+          , user_id
+          , nickname
+          , email
+          , reg_date
+          , upd_date
+          , db_status
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+          AND
+            db_status = 'OK'
+    </select>
+    <select id="countUserByuserId" resultType="Integer">
+        SELECT /*countUserByuserId*/
+            COUNT id
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+        AND
+            db_status = 'OK'
+    </select>
+
+    <select id="countUserByNickName" resultType="Integer">
+        SELECT /*countUserByNickName*/
+            COUNT id
+        FROM
+            user
+        WHERE
+            nickname = #{nickName}
+        AND
+            db_status = 'OK'
+    </select>
+
+    <select id="selectPwdByUserId" resultType="String">
+        SELECT /*selectPwdByUserId*/
+            pwd
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+        AND
+            db_status = 'OK'
+    </select>
+
+    <update id="updatePwd">
+        UPDATE /*updatePwd*/
+            user
+        SET pwd = #{userDTO.newPwd}
+
+        WHERE
+            user_id = #{userDTO.userId}
+        AND
+            db_status = 'OK'
+    </update>
+
+    <update id="updateNickName">
+        UPDATE /*updateNickName*/
+            user
+        SET nickname = #{userDTO.nickName}
+
+        WHERE
+            user_id = #{userDTO.userId}
+        AND
+            db_status = 'OK'
+    </update>
+
+
+</mapper>

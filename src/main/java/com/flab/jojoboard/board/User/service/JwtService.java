@@ -1,8 +1,5 @@
 package com.flab.jojoboard.board.User.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flab.jojoboard.board.User.domain.User;
 import com.flab.jojoboard.common.domain.Constants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -27,6 +22,8 @@ public class JwtService {
 
     private static final String CLAIM_NAME_INFO = "userId";
 
+    //토큰 생성
+    //HS512 알고리즘을 통해 암호화
     public String getAccessToken(String userId) {
 
         return Jwts.builder()
@@ -34,18 +31,22 @@ public class JwtService {
                 .setId(UUID.randomUUID().toString())
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
-                .claim(CLAIM_NAME_INFO, userId)
+                .claim(CLAIM_NAME_INFO, userId) // 페이로드에는 유저 아이디가 들어간다
                 .signWith(Keys.hmacShaKeyFor(Constants.ACCESS_TOKEN_KEY.getBytes(StandardCharsets.UTF_8)),
                         SignatureAlgorithm.HS512
                 )
                 .compact();
     }
 
-    public Integer getLoginUserId(String token){
-        Jwts.parserBuilder().setSigningKey(Constants.ACCESS_TOKEN_KEY.getBytes(StandardCharsets.UTF_8));
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(Constants.ACCESS_TOKEN_KEY.getBytes(StandardCharsets.UTF_8)).build().parseClaimsJws(token).getBody();
+    //토큰을 복호화하여 페이로드에 있는 유저 아이디를 가져온다
+    public String getLoginUserId(String token){
 
-        return claims.get(CLAIM_NAME_INFO,Integer.class);
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(Constants.ACCESS_TOKEN_KEY.getBytes(StandardCharsets.UTF_8))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get(CLAIM_NAME_INFO,String.class);
     }
 }
