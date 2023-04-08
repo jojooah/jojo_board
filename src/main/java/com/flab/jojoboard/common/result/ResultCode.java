@@ -23,7 +23,10 @@ public enum ResultCode {
     NEW_PWD_IS_DIFFERENT_FROM_NEW_PWD_FOR_CHECK(1009,"변경할 비밀번호가 서로 일치하지 않습니다."),
     NOT_CORRECT_OLD_PWD(1010,"기존 비밀번호가 틀렸습니다."),
     ALREADY_USED_PWD(1011,"기존 비밀번호는 사용하실 수 없습니다."),
-
+    PWD_IS_DIFFERENT_FROM_PWD_FOR_CHECK(1012,"비밀번호가 서로 일치하지 않습니다."),
+    NOT_EMAIL_AUTH(1013,"이메일 인증을 진행해주세요."),
+    NOT_CORRECT_EMAIL_KEY(1014,"올바르지 않은 인증키입니다."),
+    NEED_EMAIL(1015,"이메일을 입력하세요"),
     //2000번대 게시글 관련 에러
     POST_NOT_EXISTS(2000, "해당 글이 존재하지 않습니다."),
     POSTLIST_NOT_EXISTS(2001, "해당 게시판에 작성된 글이 없습니다."),

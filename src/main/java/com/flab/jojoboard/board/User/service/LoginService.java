@@ -22,6 +22,7 @@ import java.util.Objects;
 @Slf4j
 public class LoginService {
 
+
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final HttpServletRequest request;
@@ -73,4 +74,7 @@ public class LoginService {
     public boolean isLogin() {
         return !Objects.isNull(getLoginUserInfo());
     }
+
+    /** 현재 로그인한 상태가 아닌지 판별*/
+    public boolean isNotLogin() { return !isLogin(); }
 }

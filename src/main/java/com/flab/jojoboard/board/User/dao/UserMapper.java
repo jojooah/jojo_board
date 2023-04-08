@@ -2,6 +2,7 @@ package com.flab.jojoboard.board.User.dao;
 
 import com.flab.jojoboard.board.User.domain.User;
 import com.flab.jojoboard.board.User.domain.dto.LoginUser;
+import com.flab.jojoboard.board.User.domain.dto.MailAuthDTO;
 import com.flab.jojoboard.board.User.domain.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,6 +23,12 @@ public interface UserMapper {
      * @return LoginUser
      */
     LoginUser selectLoginUserByUserId(@Param("userId") String userId);
+
+    /**
+     * 회원가입
+     * @param userDTO
+     */
+    void insertUser(@Param("userDTO") UserDTO userDTO);
 
     /**
      * 유저 아이디 중복확인
@@ -55,5 +62,32 @@ public interface UserMapper {
      * @param userDTO
      */
     void updateNickName(@Param("userDTO") UserDTO userDTO);
+
+    /**
+     * 회원탈퇴
+     * @param userId
+     */
+    void deleteUserByUserId(@Param("userId") String userId );
+
+    /**
+     * 이메일 인증
+     * @param mailAuthDTO
+     */
+    void updateEmailAuth(@Param("mailAuthDTO") MailAuthDTO mailAuthDTO);
+
+    /**
+     * 이메일 인증여부 확인
+     * @param userId
+     * @return
+     */
+    Integer countByEmailAuth(@Param("userId") String userId);
+
+    /**
+     * 이메일 키 일치 여부 확인
+     * @param mailAuthDTO
+     * @return
+     */
+    String selectEmailKeyByUserEmailAndEmailKey(@Param("mailAuthDTO") MailAuthDTO mailAuthDTO);
+
 
 }

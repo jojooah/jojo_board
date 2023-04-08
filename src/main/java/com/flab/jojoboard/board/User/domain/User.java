@@ -18,4 +18,5 @@ public class User extends Common {
     private String pwd;
     private String nickName;
     private String email;
+    private String emailKey;
 }
