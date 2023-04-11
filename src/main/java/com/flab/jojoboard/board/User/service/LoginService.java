@@ -28,8 +28,8 @@ public class LoginService {
     private final HttpServletRequest request;
 
     public void checkIdAndPwd(UserDTO userDTO) throws ResultCodeException {
-        if (Objects.isNull(userDTO.getUserId())) throw new ResultCodeException(ResultCode.NEED_USER_ID);
-        if (Objects.isNull(userDTO.getPwd())) throw new ResultCodeException(ResultCode.NEED_PWD);
+        if (Objects.isNull(userDTO.getUserId()) || userDTO.getUserId() == "") throw new ResultCodeException(ResultCode.NEED_USER_ID);
+        if (Objects.isNull(userDTO.getPwd()) || userDTO.getPwd() == "") throw new ResultCodeException(ResultCode.NEED_PWD);
 
         User findUser = userMapper.selectUserByUserId(userDTO.getUserId());
         if (Objects.isNull(findUser)) throw new ResultCodeException(ResultCode.USER_ID_NOT_EXIST);

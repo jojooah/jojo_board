@@ -24,97 +24,57 @@ public class PostController {
 
 
     @GetMapping("/post/list") //글목록
-    public ResponseBase<List<Post>> getPostList(@RequestParam("boardId") int boardId) {
+    public ResponseBase<List<Post>> getPostList(@RequestParam("boardId") int boardId) throws Exception {
         List<Post> postList = null;
         ResponseBase responseBase = new ResponseBase<>();
 
-        try {
-            postList = postService.getPosts(boardId);
-            responseBase.setData(postList);
-            responseBase.setResultCode(ResultCode.SUCCESS);
-        } catch (ResultCodeException e) {
-            responseBase.setResultCode(e.getResultCode());
-            responseBase.setMessage(e.getResultCode().getMsg());
+        postList = postService.getPosts(boardId);
+        responseBase.setData(postList);
+        responseBase.setResultCode(ResultCode.SUCCESS);
 
-        } catch (Exception e) {
-            responseBase.setMessage("의도하지 못한 에러");
-            log.error(e.getMessage());
-        }
         return responseBase;
 
     }
 
     @GetMapping("/post/{postId}") //게시글 가져오기
-    public ResponseBase getPost(@PathVariable("postId") int postId) {
+    public ResponseBase getPost(@PathVariable("postId") int postId) throws Exception {
         Post post = null;
         ResponseBase responseBase = new ResponseBase<>();
 
-        try {
-            post = postService.getPost(postId);
-            responseBase.setData(post);
-            responseBase.setResultCode(ResultCode.SUCCESS);
-        } catch (ResultCodeException e) {
-            responseBase.setResultCode(e.getResultCode());
-            responseBase.setMessage(e.getResultCode().getMsg());
+        post = postService.getPost(postId);
+        responseBase.setData(post);
+        responseBase.setResultCode(ResultCode.SUCCESS);
 
-        } catch (Exception e) {
-            responseBase.setMessage("의도하지 못한 에러");
-        }
         return responseBase;
     }
 
     @PostMapping("/post")//글쓰기
-    public ResponseBase insertPost(@RequestBody PostDTO postDTO) {
+    public ResponseBase insertPost(@RequestBody PostDTO postDTO) throws Exception {
         ResponseBase responseBase = new ResponseBase<>();
 
-        try {
-            postService.insertPost(postDTO);
-            responseBase.setResultCode(ResultCode.SUCCESS);
+        postService.insertPost(postDTO);
+        responseBase.setResultCode(ResultCode.SUCCESS);
 
-        } catch (ResultCodeException e) {
-            responseBase.setResultCode(e.getResultCode());
-            responseBase.setMessage(e.getResultCode().getMsg());
-
-        } catch (Exception e) {
-            responseBase.setMessage("의도하지 못한 에러");
-            log.error(e.getMessage());
-        }
         return responseBase;
     }
 
     @DeleteMapping("/post/{post_id}")
-    public ResponseBase deletePost(@RequestBody PostDTO postDTO) {
+    public ResponseBase deletePost(@RequestBody PostDTO postDTO) throws Exception {
         ResponseBase responseBase = new ResponseBase<>();
-        try {
-            postService.deletePost(postDTO); //권한 체크를 위해 객체를 넣음
-            responseBase.setResultCode(ResultCode.SUCCESS);
 
-        } catch (ResultCodeException e) {
-            responseBase.setResultCode(e.getResultCode());
-            responseBase.setMessage(e.getResultCode().getMsg());
+        postService.deletePost(postDTO); //권한 체크를 위해 객체를 넣음
+        responseBase.setResultCode(ResultCode.SUCCESS);
 
-        } catch (Exception e) {
-            responseBase.setMessage("의도하지 못한 에러");
-            log.error(e.getMessage());
-        }
         return responseBase;
     }
 
     @PatchMapping("/post/{post_id}")
-    public ResponseBase updatePost(@RequestBody PostDTO postDTO) {
+    public ResponseBase updatePost(@RequestBody PostDTO postDTO) throws Exception {
         ResponseBase responseBase = new ResponseBase<>();
-        try {
-            postService.updatePost(postDTO);//권한 체크를 위해 객체를 넣음
-            responseBase.setResultCode(ResultCode.SUCCESS);
 
-        } catch (ResultCodeException e) {
-            responseBase.setResultCode(e.getResultCode());
-            responseBase.setMessage(e.getResultCode().getMsg());
+        postService.updatePost(postDTO);//권한 체크를 위해 객체를 넣음
+        responseBase.setResultCode(ResultCode.SUCCESS);
 
-        } catch (Exception e) {
-            responseBase.setMessage("의도하지 못한 에러");
-            log.error(e.getMessage());
-        }
         return responseBase;
     }
 
