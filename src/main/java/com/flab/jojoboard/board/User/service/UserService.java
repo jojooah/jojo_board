@@ -27,7 +27,7 @@ public class UserService {
 
     /** 회원가입 */
     @Transactional
-    public void insertUser(UserDTO userDTO) throws ResultCodeException{
+    public void insertUser(UserDTO userDTO) {
         isExistUserByUserId(userDTO.getUserId());
 
         if (userDTO.getPwd() == null || userDTO.getPwd().isEmpty()) throw new ResultCodeException(ResultCode.NEED_PWD);
@@ -47,7 +47,7 @@ public class UserService {
 
     /** 아이디 중복확인 */
     @Transactional
-    public void isExistUserByUserId(String userId) throws ResultCodeException {
+    public void isExistUserByUserId(String userId)  {
         if (userId == null || userId.isEmpty()) throw new ResultCodeException(ResultCode.NEED_USER_ID);
         if (userMapper.countUserByuserId(userId) > 0 ) throw new ResultCodeException(ResultCode.USER_ID_ALREADY_EXIST);
 
@@ -55,7 +55,7 @@ public class UserService {
 
     /** 닉네임 중복확인 */
     @Transactional
-    public void isExistUserByNickName(String nickName) throws ResultCodeException {
+    public void isExistUserByNickName(String nickName) {
         if (nickName == null || nickName.isEmpty()) throw new ResultCodeException(ResultCode.NEED_NICK_NAME);
         if (userMapper.countUserByNickName(nickName) > 0) throw new ResultCodeException(ResultCode.NICK_NAME_ALREADY_EXIST);
     }
@@ -100,7 +100,7 @@ public class UserService {
 
     /** 회원탈퇴 */
     @Transactional
-    public void deleteUser(String pwd) throws ResultCodeException {
+    public void deleteUser(String pwd) {
         if(loginService.isNotLogin()) throw new ResultCodeException(ResultCode.PLEASE_LOGIN);
 
         String userId = loginService.getLoginUserInfo().getUserId();
@@ -111,7 +111,7 @@ public class UserService {
 
     /** 이메일 인증 */
     @Transactional
-    public void updateEmailAuth(MailAuthDTO mailAuthDTO) throws ResultCodeException {
+    public void updateEmailAuth(MailAuthDTO mailAuthDTO)  {
         String findKey=userMapper.selectEmailKeyByUserEmailAndEmailKey(mailAuthDTO);
         if (findKey == null || findKey == "") throw new ResultCodeException(ResultCode.NOT_CORRECT_EMAIL_KEY);
 
@@ -120,7 +120,7 @@ public class UserService {
 
     /** 이메일 인증 여부 확인 */
     @Transactional
-    public void checkEmailAuth(String userId) throws ResultCodeException {
+    public void checkEmailAuth(String userId) {
         if(userMapper.countByEmailAuth(userId) == 0) { throw new ResultCodeException(ResultCode.NOT_EMAIL_AUTH); }
     }
 }

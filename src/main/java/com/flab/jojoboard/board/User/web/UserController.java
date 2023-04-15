@@ -19,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/user")
-    public ResponseBase insertUser(@RequestBody UserDTO userDTO) throws Exception {
+    public ResponseBase insertUser(@RequestBody UserDTO userDTO) {
         ResponseBase responseBase = new ResponseBase<>();
 
         userService.insertUser(userDTO);
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/user/id")
-    public ResponseBase checkUserId(@RequestBody Map<String, String> userId) throws Exception {
+    public ResponseBase checkUserId(@RequestBody Map<String, String> userId)  {
         ResponseBase responseBase = new ResponseBase<>();
 
         userService.isExistUserByUserId(userId.get("userId"));
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/user/nickname")
-    public ResponseBase checkNickName(@RequestBody Map<String, String> nickName) throws Exception {
+    public ResponseBase checkNickName(@RequestBody Map<String, String> nickName)  {
         ResponseBase responseBase = new ResponseBase<>();
 
         userService.isExistUserByNickName(nickName.get("nickName"));
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @PatchMapping("/user/pwd")
-    public ResponseBase changePwd(@RequestBody UserDTO userDTO) throws Exception {
+    public ResponseBase changePwd(@RequestBody UserDTO userDTO)  {
         ResponseBase responseBase = new ResponseBase<>();
 
         userService.changePwd(userDTO);
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping("/user/mailAuth")
-    public ResponseBase mailAuth(@RequestParam("email") String email, @RequestParam("emailKey") String emailKey) throws Exception {
+    public ResponseBase mailAuth(@RequestParam("email") String email, @RequestParam("emailKey") String emailKey) {
         ResponseBase responseBase = new ResponseBase<>();
 
         MailAuthDTO mailAuthDTO = new MailAuthDTO();

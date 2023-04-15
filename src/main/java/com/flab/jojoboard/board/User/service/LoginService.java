@@ -27,7 +27,7 @@ public class LoginService {
     private final JwtService jwtService;
     private final HttpServletRequest request;
 
-    public void checkIdAndPwd(UserDTO userDTO) throws ResultCodeException {
+    public void checkIdAndPwd(UserDTO userDTO) {
         if (Objects.isNull(userDTO.getUserId()) || userDTO.getUserId() == "") throw new ResultCodeException(ResultCode.NEED_USER_ID);
         if (Objects.isNull(userDTO.getPwd()) || userDTO.getPwd() == "") throw new ResultCodeException(ResultCode.NEED_PWD);
 
@@ -41,7 +41,7 @@ public class LoginService {
      * 로그인
      * 토큰을 만들어 쿠키에 넣고, 브라우저에 보내준다
      */
-    public boolean login(UserDTO userDTO, HttpServletResponse response) throws ResultCodeException {
+    public boolean login(UserDTO userDTO, HttpServletResponse response) {
         checkIdAndPwd(userDTO);
 
         Cookie cookie = new Cookie(Constants.COOKIE_NAME_ACCESS_TOKEN, jwtService.getAccessToken(userDTO.getUserId()));

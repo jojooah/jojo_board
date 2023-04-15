@@ -24,7 +24,7 @@ public class PostController {
 
 
     @GetMapping("/post/list") //글목록
-    public ResponseBase<List<Post>> getPostList(@RequestParam("boardId") int boardId) throws Exception {
+    public ResponseBase<List<Post>> getPostList(@RequestParam("boardId") int boardId) {
         List<Post> postList = null;
         ResponseBase responseBase = new ResponseBase<>();
 
@@ -37,7 +37,7 @@ public class PostController {
     }
 
     @GetMapping("/post/{postId}") //게시글 가져오기
-    public ResponseBase getPost(@PathVariable("postId") int postId) throws Exception {
+    public ResponseBase getPost(@PathVariable("postId") int postId)  {
         Post post = null;
         ResponseBase responseBase = new ResponseBase<>();
 
@@ -49,7 +49,7 @@ public class PostController {
     }
 
     @PostMapping("/post")//글쓰기
-    public ResponseBase insertPost(@RequestBody PostDTO postDTO) throws Exception {
+    public ResponseBase insertPost(@RequestBody PostDTO postDTO)  {
         ResponseBase responseBase = new ResponseBase<>();
 
         postService.insertPost(postDTO);
@@ -59,7 +59,7 @@ public class PostController {
     }
 
     @DeleteMapping("/post/{post_id}")
-    public ResponseBase deletePost(@RequestBody PostDTO postDTO) throws Exception {
+    public ResponseBase deletePost(@RequestBody PostDTO postDTO)  {
         ResponseBase responseBase = new ResponseBase<>();
 
         postService.deletePost(postDTO); //권한 체크를 위해 객체를 넣음
@@ -69,7 +69,7 @@ public class PostController {
     }
 
     @PatchMapping("/post/{post_id}")
-    public ResponseBase updatePost(@RequestBody PostDTO postDTO) throws Exception {
+    public ResponseBase updatePost(@RequestBody PostDTO postDTO)  {
         ResponseBase responseBase = new ResponseBase<>();
 
         postService.updatePost(postDTO);//권한 체크를 위해 객체를 넣음

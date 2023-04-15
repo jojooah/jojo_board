@@ -23,7 +23,7 @@ public class LoginController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseBase login(@RequestBody UserDTO userDTO, HttpServletResponse response) throws Exception {
+    public ResponseBase login(@RequestBody UserDTO userDTO, HttpServletResponse response)  {
         ResponseBase responseBase = new ResponseBase<>();
 
         userService.checkEmailAuth(userDTO.getUserId());
