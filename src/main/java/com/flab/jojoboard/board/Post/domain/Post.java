@@ -1,5 +1,6 @@
 package com.flab.jojoboard.board.Post.domain;
 
+import com.flab.jojoboard.common.domain.Common;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +11,9 @@ import org.apache.ibatis.type.Alias;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @Alias(value = "Post")
-public class Post{
+public class Post extends Common {
     int id;                             //시퀀스
     private String title;               //제목
     private String content;             //내용
@@ -21,7 +22,5 @@ public class Post{
     private String nonMemNick;          //비회원 닉네임
     private String nonMemPwd;           //비회원 비밀번호
     private String boardType;           //게시판 타입
-    private String regId;               //작성자
-    private String regDate;             //작성일
-    private String updDate;             //수정일
+
 }

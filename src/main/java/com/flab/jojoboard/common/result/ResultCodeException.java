@@ -5,12 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ResultCodeException extends Exception{
+public class ResultCodeException extends RuntimeException {
     private ResultCode resultCode;
 
     private Object response;
 
-    public  ResultCodeException(ResultCode resultCode){
-        this.resultCode = resultCode;
-    }
+    public ResultCodeException(ResultCode resultCode) { this.resultCode = resultCode; }
+
 }

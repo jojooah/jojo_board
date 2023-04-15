@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flab.jojoboard.board.User.dao.UserMapper">
+
+    <select id="selectUserByUserId" resultType="User">
+        SELECT /*selectUserByUserId*/
+            id
+          , user_id
+          , pwd
+          , nickname
+          , email
+          , reg_date
+          , upd_date
+          , db_status
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+          AND
+            db_status = 'OK'
+    </select>
+
+    <select id="selectLoginUserByUserId" resultType="LoginUser">
+        SELECT /*selectLoginUserByUserId*/
+            id
+          , user_id
+          , nickname
+          , email
+          , reg_date
+          , upd_date
+          , db_status
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+          AND
+            db_status = 'OK'
+    </select>
+    <select id="countUserByuserId" resultType="Integer">
+        SELECT /*countUserByuserId*/
+            COUNT(id)
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+        AND
+            db_status = 'OK'
+    </select>
+
+    <select id="countUserByNickName" resultType="Integer">
+        SELECT /*countUserByNickName*/
+            COUNT(id)
+        FROM
+            user
+        WHERE
+            nickname = #{nickName}
+        AND
+            db_status = 'OK'
+    </select>
+
+    <select id="selectPwdByUserId" resultType="String">
+        SELECT /*selectPwdByUserId*/
+            pwd
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+        AND
+            db_status = 'OK'
+    </select>
+
+    <update id="updatePwd">
+        UPDATE /*updatePwd*/
+            user
+        SET pwd = #{userDTO.newPwd}
+
+        WHERE
+            user_id = #{userDTO.userId}
+        AND
+            db_status = 'OK'
+    </update>
+
+    <update id="updateNickName">
+        UPDATE /*updateNickName*/
+            user
+        SET nickname = #{userDTO.nickName}
+
+        WHERE
+            user_id = #{userDTO.userId}
+        AND
+            db_status = 'OK'
+    </update>
+
+    <update id="deleteUserByUserId">
+        UPDATE /*deleteUserByUserId*/
+            user
+        SET db_status = 'DEL'
+        WHERE
+            user_id = #{userDTO.userId}
+          AND
+            db_status = 'OK'
+    </update>
+
+    <select id="countByEmailAuth" resultType = "Integer">
+        SELECT /*countByEmailAuth*/
+            COUNT(id)
+        FROM user
+        WHERE
+            user_id = #{userId}
+        AND
+            mail_auth = 1
+        AND
+            db_status = 'OK'
+    </select>
+
+    <insert id="insertUser">
+        INSERT /*insertUser*/
+        INTO user (
+            user_id
+          , pwd
+          , nickname
+          , email
+          , mail_key
+          , reg_date
+          , db_status
+        ) VALUES (
+            #{userDTO.userId}
+          , #{userDTO.pwd}
+          , #{userDTO.nickName}
+          , #{userDTO.email}
+          , #{userDTO.emailKey}
+          , NOW()
+          , 'OK'
+        )
+    </insert>
+
+    <select id="selectEmailKeyByUserEmailAndEmailKey" resultType = "String">
+        SELECT /*selectEmailKeyByUserEmailAndEmailKey*/
+            mail_key
+        FROM
+             user
+        WHERE
+            email = #{mailAuthDTO.email}
+        AND
+            mail_key = #{mailAuthDTO.emailKey}
+        AND
+            db_status = 'OK'
+    </select>
+
+    <update id="updateEmailAuth">
+        UPDATE /*updateEmailAuth*/
+            user
+        SET mail_auth = 1
+        WHERE
+            email = #{mailAuthDTO.email}
+          AND
+              mail_key = #{mailAuthDTO.emailKey}
+          AND
+            db_status = 'OK'
+    </update>
+</mapper>
