@@ -89,5 +89,18 @@ public interface UserMapper {
      */
     String selectEmailKeyByUserEmailAndEmailKey(@Param("mailAuthDTO") MailAuthDTO mailAuthDTO);
 
+    /**
+     * 리프레쉬 토큰 유효한지 검증
+     * @param userId
+     * @param refreshToken
+     * @return
+     */
+    String selectUserByRefreshToken(@Param("userId") String userId, @Param("refreshToken") String refreshToken);
 
+    /**
+     * 리프레쉬토큰 저장
+     * @param userId
+     * @param refreshToken
+     */
+    void insertRefreshToken(@Param("userId") String userId, @Param("refreshToken") String refreshToken);
 }

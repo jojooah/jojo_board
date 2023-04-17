@@ -21,10 +21,10 @@ import java.util.UUID;
 public class JwtService {
 
     private static final String CLAIM_NAME_INFO = "userId";
-
+    private static final String REFRESH_TOKEN = "refresh";
     //토큰 생성
     //HS512 알고리즘을 통해 암호화
-    public String getAccessToken(String userId) {
+    public String createAccessToken(String userId) {
 
         return Jwts.builder()
                 .setSubject("board/user")
@@ -38,6 +38,21 @@ public class JwtService {
                 .compact();
     }
 
+    public String createRefreshToken(String uuid) {
+
+        return Jwts.builder()
+                .setSubject("board/user")
+                .setId(UUID.randomUUID().toString())
+                .setIssuedAt(Date.from(Instant.now()))
+                .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.WEEKS)))
+                .claim(REFRESH_TOKEN, uuid) // 고유값이 들어간다
+                .signWith(Keys.hmacShaKeyFor(Constants.REFRESH_TOKEN_KEY.getBytes(StandardCharsets.UTF_8)),
+                        SignatureAlgorithm.HS512
+                )
+                .compact();
+    }
+
+
     //토큰을 복호화하여 페이로드에 있는 유저 아이디를 가져온다
     public String getLoginUserId(String token){
 
@@ -48,5 +63,17 @@ public class JwtService {
                 .getBody();
 
         return claims.get(CLAIM_NAME_INFO,String.class);
+    }
+
+    //토큰을 복호화하여 페이로드에 있는 리프레쉬 토큰값을 가져온다
+    public String getRefreshToken(String token){
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(Constants.REFRESH_TOKEN_KEY.getBytes(StandardCharsets.UTF_8))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get(REFRESH_TOKEN,String.class);
     }
 }

@@ -9,13 +9,17 @@ import com.flab.jojoboard.common.result.ResultCode;
 import com.flab.jojoboard.common.result.ResultCodeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.EditorKit;
+
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +30,7 @@ public class LoginService {
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final HttpServletRequest request;
+    private final HttpServletResponse response;
 
     public void checkIdAndPwd(UserDTO userDTO) {
         if (Objects.isNull(userDTO.getUserId()) || userDTO.getUserId() == "") throw new ResultCodeException(ResultCode.NEED_USER_ID);
@@ -41,33 +46,71 @@ public class LoginService {
      * 로그인
      * 토큰을 만들어 쿠키에 넣고, 브라우저에 보내준다
      */
-    public boolean login(UserDTO userDTO, HttpServletResponse response) {
+    public boolean login(UserDTO userDTO) {
         checkIdAndPwd(userDTO);
 
-        Cookie cookie = new Cookie(Constants.COOKIE_NAME_ACCESS_TOKEN, jwtService.getAccessToken(userDTO.getUserId()));
-        cookie.setMaxAge(60 * 60);
-        response.addCookie(cookie);
+        issueAccessToken(userDTO.getUserId()); //액세스 토큰 발급
+        issueRefreshToken(userDTO.getUserId()); //리프레쉬 토큰 발급
+
         return true;
+    }
+
+    void issueAccessToken(String userId){
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer "+jwtService.createAccessToken(userId)); // acceses token authorization헤더에 담는다
+
+    }
+
+    @Transactional
+    void issueRefreshToken(String userId){
+
+        String uuid = UUID.randomUUID().toString();
+        userMapper.insertRefreshToken(userId,uuid);
+
+        Cookie cookie = new Cookie(Constants.COOKIE_NAME_REFRESH_TOKEN, jwtService.createRefreshToken(userId+" "+uuid)); //  refresh token은 쿠키에 담는다
+        cookie.setMaxAge( 7 * 24 * 60 * 60 * 1000); //일주일로 설정
+        response.addCookie(cookie);
+
     }
 
     /** 현재 로그인한 유저정보 가져오기 */
     public LoginUser getLoginUserInfo(){
+
+        String authorizationHeader = request.getHeader("Authorization");
+
+        //access토큰 없으면 리프레쉬토큰 확인
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            String LoginId = checkValidRefreshTokenAndGetUserId();
+
+           if (!LoginId.isEmpty()) {
+               issueAccessToken(LoginId);  //리프레쉬 토큰이 유효하면 액세스토큰 발급
+               return userMapper.selectLoginUserByUserId(LoginId); //유저 아이디로 유저정보 가져오기
+           }
+        }
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String accessToken = authorizationHeader.substring("Bearer ".length());
+            userMapper.selectLoginUserByUserId(jwtService.getLoginUserId(accessToken));
+        }
+        return null;
+    }
+
+    public String checkValidRefreshTokenAndGetUserId() {
         Cookie[] cookies = request.getCookies();
-        String userId;
-
-        if (Objects.isNull(cookies)) return null;
-
+        String userId = "";
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 String cookieName = cookie.getName();
-                if (Constants.COOKIE_NAME_ACCESS_TOKEN.equals(cookieName)) {
-                    userId = jwtService.getLoginUserId(cookie.getValue()); //쿠키에 있는 유저 아이디 가져오기
-                    return userMapper.selectLoginUserByUserId(userId); //유저 아이디로 유저정보 가져오기
+                if (Constants.COOKIE_NAME_REFRESH_TOKEN.equals(cookieName)) {
+                    String refreshToken = jwtService.getRefreshToken(cookie.getValue()); //쿠키에 있는 리프레쉬 토큰 가져오기
+                    String[] tokens = refreshToken.split(" ");
+                    if (tokens.length == 2)
+                        userId = userMapper.selectUserByRefreshToken(tokens[0], tokens[1]); //리프레쉬 토큰이 디비에 있는지 검사
                 }
             }
         }
-
-        return null;
+        return userId;
     }
 
     /** 현재 로그인한 상태인지 판별 */

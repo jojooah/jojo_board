@@ -23,11 +23,11 @@ public class LoginController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseBase login(@RequestBody UserDTO userDTO, HttpServletResponse response)  {
+    public ResponseBase login(@RequestBody UserDTO userDTO)  {
         ResponseBase responseBase = new ResponseBase<>();
 
         userService.checkEmailAuth(userDTO.getUserId());
-        loginService.login(userDTO, response);
+        loginService.login(userDTO);
         responseBase.setResultCode(ResultCode.SUCCESS);
 
         return responseBase;
