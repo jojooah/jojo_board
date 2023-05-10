@@ -4,6 +4,8 @@ import com.flab.jojoboard.board.Post.domain.Post;
 import com.flab.jojoboard.board.Post.domain.dto.PostDTO;
 import com.flab.jojoboard.board.User.service.AuthService;
 import com.flab.jojoboard.board.Post.service.PostService;
+import com.flab.jojoboard.common.annotation.ReturnAOP;
+import com.flab.jojoboard.common.annotation.ReturnDataAOP;
 import com.flab.jojoboard.common.domain.ResponseBase;
 import com.flab.jojoboard.common.result.ResultCode;
 import com.flab.jojoboard.common.result.ResultCodeException;
@@ -22,11 +24,11 @@ public class PostController {
 
     private final PostService postService;
 
-
+    @ReturnDataAOP
     @GetMapping("/post/list") //글목록
     public ResponseBase<List<Post>> getPostList(@RequestParam("boardId") int boardId) {
         List<Post> postList = null;
-        ResponseBase responseBase = new ResponseBase<>();
+        ResponseBase<List<Post>> responseBase = new ResponseBase<>();
 
         postList = postService.getPosts(boardId);
         responseBase.setData(postList);
@@ -36,15 +38,12 @@ public class PostController {
 
     }
 
+    @ReturnDataAOP
     @GetMapping("/post/{postId}") //게시글 가져오기
-    public ResponseBase getPost(@PathVariable("postId") int postId)  {
-        Post post = null;
-        ResponseBase responseBase = new ResponseBase<>();
-
-        post = postService.getPost(postId);
-        responseBase.setData(post);
+    public  ResponseBase<Post>  getPost(@PathVariable("postId") int postId)  {
+        ResponseBase<Post> responseBase = new ResponseBase<>();
+        responseBase.setData(postService.getPost(postId));
         responseBase.setResultCode(ResultCode.SUCCESS);
-
         return responseBase;
     }
 

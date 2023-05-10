@@ -28,7 +28,8 @@ public enum ResultCode {
     NOT_EMAIL_AUTH(1016, "이메일 인증을 진행해주세요.", HttpStatus.BAD_REQUEST),
     NOT_CORRECT_EMAIL_KEY(1017, "올바르지 않은 인증키입니다.", HttpStatus.BAD_REQUEST),
     NEED_EMAIL(1018, "이메일을 입력하세요", HttpStatus.BAD_REQUEST),
-
+    WRONg_URL(1019, "올바르지 않은 url입니다", HttpStatus.BAD_REQUEST),
+    NO_PATHVARIABLE(1020, "path variable이 없습니다", HttpStatus.BAD_REQUEST),
     //2000번대 게시글 관련 에러
     POST_NOT_EXISTS(2000, "해당 글이 존재하지 않습니다.", HttpStatus.NO_CONTENT),
     POSTLIST_NOT_EXISTS(2001, "해당 게시판에 작성된 글이 없습니다.", HttpStatus.NO_CONTENT),

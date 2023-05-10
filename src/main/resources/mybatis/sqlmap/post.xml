@@ -21,7 +21,7 @@
             db_status = 'OK'
     </select>
 
-    <select id="selectPostsByBoardId" parameterType="int" resultType="hashMap">
+    <select id="selectPostsByBoardId" parameterType="int" resultType="Post">
         SELECT /*selectPostsByBoardId*/
             id
           , title
