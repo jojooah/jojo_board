@@ -77,7 +77,7 @@ public class LoginService {
     /** 현재 로그인한 유저정보 가져오기 */
     public LoginUser getLoginUserInfo(){
 
-        String authorizationHeader = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader("Authorization"); //authorization헤더에서 가져옴
 
         //access토큰 없으면 리프레쉬토큰 확인
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
