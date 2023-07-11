@@ -23,4 +23,7 @@ public class Post extends Common {
     private String nonMemPwd;           //비회원 비밀번호
     private String boardType;           //게시판 타입
 
+    public boolean isNotWrittenByMem(){
+        return !writtenByMem;
+    }
 }

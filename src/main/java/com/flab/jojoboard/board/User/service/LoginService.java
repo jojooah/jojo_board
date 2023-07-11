@@ -91,7 +91,7 @@ public class LoginService {
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String accessToken = authorizationHeader.substring("Bearer ".length());
-            userMapper.selectLoginUserByUserId(jwtService.getLoginUserId(accessToken));
+            return userMapper.selectLoginUserByUserId(jwtService.getLoginUserId(accessToken));
         }
         return null;
     }
