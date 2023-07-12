@@ -40,5 +40,14 @@ public interface PostMapper {
     * @param postId
     */
    void deletePostByPostId(@Param("postId") int postId);
+
+   /**
+    * 게시물의 댓글 수
+    *
+    * @param postId
+    * @return int
+    */
+   int countReplyTotalByPostId(int postId);
+
 }
 

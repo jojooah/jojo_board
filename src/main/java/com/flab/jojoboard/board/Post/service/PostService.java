@@ -66,4 +66,14 @@ public class PostService {
 
         postMapper.updatePost(postDTO);
     }
+
+    /**
+     * 조회수 증가
+     * @param postId
+     * @throws Exception
+     */
+//    @Transactional
+//    public void postCount(int postId) throws Exception{
+//        boardMapper.updateCountByPostId(postId);
+//    }
 }

@@ -41,10 +41,13 @@ public enum ResultCode {
     POST_ALREADY_DELETED(2006, "이미 삭제된 게시글입니다.", HttpStatus.NO_CONTENT),
     WRONG_POST_PWD(2007,"비밀번호가 틀렸습니다.",HttpStatus.BAD_REQUEST),
     NOT_EXIST_BOARD_ID(2008,"게시판 ID가 없습니다.",HttpStatus.BAD_REQUEST),
+    NOT_EXIST_POST_ID(2009,"게시글 ID가 없습니다",HttpStatus.BAD_REQUEST),
 
+    //3000번대 댓글 관련 에러
     NEED_REPLY_CONTENT(3001, "댓글 내용을 입력해 주세요", HttpStatus.BAD_REQUEST),
-
-
+    NOT_EXIST_REPLY(3002,"댓글 객체가 없습니다.",HttpStatus.BAD_REQUEST),
+    NOT_REPLY_WRITTER(3003,"댓글 작성자만 댓글을 수정/삭제할 수 있습니다",HttpStatus.BAD_REQUEST),
+    WRONG_REPLY_PWD(3004,"비밀번호가 틀렸습니다.",HttpStatus.BAD_REQUEST),
     ERROR_ETC(9999, "기타 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private int code;
