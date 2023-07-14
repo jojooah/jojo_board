@@ -21,60 +21,62 @@ public class PostController {
 
     private final PostService postService;
 
-  //  @ReturnDataAOP
+    //  @ReturnDataAOP
     @GetMapping("/post/list") //글목록
     public ResponseBase<List<Post>> getPostList(@RequestParam("boardId") int boardId) {
         List<Post> postList = null;
         ResponseBase<List<Post>> responseBase = new ResponseBase<>();
 
+        authService.isAccessPossibleBoardByBoardId(boardId);
         postList = postService.getPosts(boardId);
         responseBase.setData(postList);
         responseBase.setResultCode(ResultCode.SUCCESS);
 
         return responseBase;
-
     }
 
-   // @ReturnDataAOP
+    // @ReturnDataAOP
     @GetMapping("/post/{postId}") //게시글 가져오기
-    public  ResponseBase<Post>  getPost(@PathVariable("postId") int postId)  {
+    public ResponseBase<Post> getPost(@PathVariable("postId") int postId) {
         ResponseBase<Post> responseBase = new ResponseBase<>();
 
-        if (authService.isAccessPossibleBoardByPostId(postId)) {
-            responseBase.setData(postService.getPost(postId));
-            responseBase.setResultCode(ResultCode.SUCCESS);
-        }
+        authService.isAccessPossibleBoardByPostId(postId);
+        responseBase.setData(postService.getPost(postId));
+        responseBase.setResultCode(ResultCode.SUCCESS);
+
 
         return responseBase;
     }
 
     @PostMapping("/post")//글쓰기
-    public ResponseBase insertPost(@RequestBody PostDTO postDTO)  {
+    public ResponseBase insertPost(@RequestBody PostDTO postDTO) {
         ResponseBase responseBase = new ResponseBase<>();
-        if (authService.isAccessPossibleBoardByBoardId(postDTO.getBoardId())) {
-            postService.insertPost(postDTO);
-            responseBase.setResultCode(ResultCode.SUCCESS);
-        }
+        authService.isAccessPossibleBoardByBoardId(postDTO.getBoardId());
+        postService.insertPost(postDTO);
+        responseBase.setResultCode(ResultCode.SUCCESS);
+
         return responseBase;
     }
 
     @DeleteMapping("/post/{post_id}") //게시글 삭제
-    public ResponseBase deletePost(@RequestBody PostDTO postDTO)  {
+    public ResponseBase deletePost(@RequestBody PostDTO postDTO) {
         ResponseBase responseBase = new ResponseBase<>();
-        if (authService.isAccessPossibleBoardByPostId(postDTO.getId()) && authService.checkPostAuth(postDTO)) {
-            postService.deletePost(postDTO); //권한 체크를 위해 객체를 넣음
-            responseBase.setResultCode(ResultCode.SUCCESS);
-        }
+        authService.isAccessPossibleBoardByPostId(postDTO.getId());
+        authService.checkPostAuth(postDTO);
+        postService.deletePost(postDTO); //권한 체크를 위해 객체를 넣음
+        responseBase.setResultCode(ResultCode.SUCCESS);
+
         return responseBase;
     }
 
     @PatchMapping("/post/{post_id}") //글수정
-    public ResponseBase updatePost(@RequestBody PostDTO postDTO)  {
+    public ResponseBase updatePost(@RequestBody PostDTO postDTO) {
         ResponseBase responseBase = new ResponseBase<>();
-        if (authService.isAccessPossibleBoardByPostId(postDTO.getId()) && authService.checkPostAuth(postDTO)) {
-            postService.updatePost(postDTO);//권한 체크를 위해 객체를 넣음
-            responseBase.setResultCode(ResultCode.SUCCESS);
-        }
+        authService.isAccessPossibleBoardByPostId(postDTO.getId());
+        authService.checkPostAuth(postDTO);
+        postService.updatePost(postDTO);//권한 체크를 위해 객체를 넣음
+        responseBase.setResultCode(ResultCode.SUCCESS);
+
         return responseBase;
     }
 

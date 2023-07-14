@@ -57,5 +57,4 @@ public interface BoardMapper {
      */
     int countReplyTotalByParentReplyId(int parentReplyId);
 
-
 }

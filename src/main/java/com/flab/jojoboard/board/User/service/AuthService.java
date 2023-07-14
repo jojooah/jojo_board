@@ -27,7 +27,7 @@ public class AuthService {
      * @return
      * @throws ResultCodeException
      */
-    public boolean checkPostAuth(PostDTO post) throws ResultCodeException {
+    public void checkPostAuth(PostDTO post) throws ResultCodeException {
         if(post == null) throw new ResultCodeException(ResultCode.POST_NOT_EXISTS);
 
         Post findPost = postMapper.selectPostByPostId(post.getId());
@@ -35,7 +35,6 @@ public class AuthService {
         if(findPost.isWrittenByMem() && !loginService.getLoginUserInfo().getUserId().equals(findPost.getRegId())) throw new ResultCodeException(ResultCode.NOT_WITTER);
         if(findPost.isNotWrittenByMem() && !findPost.getNonMemPwd().equals(post.getNonMemPwd())) throw new ResultCodeException(ResultCode.WRONG_POST_PWD);
 
-        return true;
     }
 
     /***
@@ -44,13 +43,12 @@ public class AuthService {
      * @return
      * @throws ResultCodeException
      */
-    public boolean isAccessPossibleBoardByBoardId(Integer boardId) throws ResultCodeException {
+    public void isAccessPossibleBoardByBoardId(Integer boardId) throws ResultCodeException {
         if(boardId == null) throw new ResultCodeException(ResultCode.NOT_EXIST_BOARD_ID);
 
         BoardType boardType = boardMapper.selectBoardTypeByBoardId(boardId);
         if(boardType.needToLogin() && loginService.isNotLogin()) throw new ResultCodeException(ResultCode.PLEASE_LOGIN);
 
-        return true;
     }
 
     /**
@@ -58,13 +56,12 @@ public class AuthService {
      * @param postId
      * @return
      */
-    public boolean isAccessPossibleBoardByPostId(Integer postId) {
+    public void isAccessPossibleBoardByPostId(Integer postId) {
         if(postId == null) throw new ResultCodeException(ResultCode.NOT_EXIST_POST_ID);
 
         BoardType boardType = boardMapper.selectBoardTypeByPostId(postId);
         if(boardType.needToLogin() && loginService.isNotLogin()) throw new ResultCodeException(ResultCode.PLEASE_LOGIN);
 
-        return true;
     }
 
     /**
@@ -73,7 +70,7 @@ public class AuthService {
      * @return
      * @throws ResultCodeException
      */
-     public boolean checkReplyAuth(Reply reply) throws ResultCodeException {
+     public void checkReplyAuth(Reply reply) throws ResultCodeException {
         if(reply == null) throw new ResultCodeException(ResultCode.NOT_EXIST_REPLY);
 
         Reply findReply = replyMapper.selectReplyById(reply.getId());
@@ -82,6 +79,5 @@ public class AuthService {
         if(findReply.isWrittenByMem() && !loginService.getLoginUserInfo().getUserId().equals(findReply.getRegId())) throw new ResultCodeException(ResultCode.NOT_REPLY_WRITTER);
         if(findReply.isNotWrittenByMem() && !reply.getNonMemPw().equals(findReply.getNonMemPw())) throw new ResultCodeException(ResultCode.WRONG_REPLY_PWD);
 
-        return true;
     }
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flab.jojoboard.board.Post.dao.PostMapper">
+    <insert id="insertReply" parameterType="Reply">
+        INSERT /*reply.insertReply*/
+        INTO reply (
+            content
+          , non_mem_nick
+          , non_mem_pw
+          , post_id
+          , written_by_mem
+          , parent_reply_id
+          , reg_id
+          , reg_date
+        )
+        VALUES (
+            #{reply.content}
+          , #{reply.nonMemNick}
+          , #{reply.nonMemPw}
+          , #{reply.postId}
+          , #{reply.writtenByMem}
+          , #{reply.parentReplyId}
+          , #{reply.regId}
+          , now()
+        )
+    </insert>
+    <select id="selectReplyById" parameterType="int" resultType="Reply">
+        SELECT /*reply.selectReplyById*/
+            non_mem_pw
+           , written_by_mem
+           , reg_id
+        FROM reply
+        WHERE id = #{replyId}
+          AND
+            db_status = 'OK'
+    </select>
+
+    <update id="updateReply" parameterType="Reply">
+        UPDATE /*reply.updateReply*/
+            reply
+        SET
+            content = #{reply.content}
+          , upd_date = now()
+        WHERE
+            id = #{reply.id}
+    </update>
+
+    <update id="deleteReply" parameterType="int">
+        UPDATE /*reply.deleteReply*/
+            reply
+        SET
+            db_status = 'DEL'
+        WHERE
+            id = #{replyId}
+    </update>
+
+</mapper>
