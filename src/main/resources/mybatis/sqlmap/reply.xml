@@ -43,6 +43,7 @@
           , upd_date = now()
         WHERE
             id = #{reply.id}
+        AND db_statbs='OK'
     </update>
 
     <update id="deleteReply" parameterType="int">

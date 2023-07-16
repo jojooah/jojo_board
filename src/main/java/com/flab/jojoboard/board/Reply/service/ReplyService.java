@@ -11,15 +11,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ReplyService {
 
-    private final BoardMapper boardMapper;
     private final PostMapper postMapper;
     private final LoginService loginService;
     private final ReplyMapper replyMapper;
@@ -37,33 +37,19 @@ public class ReplyService {
 
 
     @Transactional
-    public void updateReply(Reply reply) { //todo 프론트에서 넘어오는 객체들 id null인지 확인해야하는데 그러면 다 Integer타입으로 선언??
-       // if(NumberUtils.)
-       // PreconditionUtils.invalidCondition(NumberUtils.isNullOrZero(reply.getId()), ERROR_CODE.NOT_EXIST_REPLY_ID.getMessage());
-       // PreconditionUtils.invalidCondition(StringUtils.isEmpty(reply.getContent()),  ERROR_CODE.NOT_EXIST_CONTENT.getMessage());
-       // boardMapper.updateReply(reply);
+    public void updateReply(Reply reply) throws ResultCodeException{ //todo 프론트에서 넘어오는 객체들 id null인지 확인해야하는데 그러면 다 Integer타입으로 선언??
+       if(reply.getId() == null) throw new ResultCodeException(ResultCode.NOT_EXSIT_REPLY_ID);
+       if(StringUtils.hasText(reply.getContent())) throw new ResultCodeException(ResultCode.NOT_EXIST_REPLY_CONTENT);
+       replyMapper.updateReply(reply);
     }
 
     public void deleteReply(Reply reply) {
-        // PreconditionUtils.invalidCondition(NumberUtils.isNullOrZero(reply.getId()), ERROR_CODE.NOT_EXIST_REPLY_ID.getMessage());
-        // PreconditionUtils.invalidCondition(StringUtils.isEmpty(reply.getContent()),  ERROR_CODE.NOT_EXIST_CONTENT.getMessage());
-        // boardMapper.updateReply(reply);
+        if(reply.getId() == null) throw new ResultCodeException(ResultCode.NOT_EXSIT_REPLY_ID);
+        replyMapper.updateReply(reply);
     }
-    //public List<Reply> getReplyList(int postId) {
-        //int total = boardMapper.countReplyTotalByPostId(postId);
-        //if (total == 0) {
-        //    return new Paging<>();
-        //}
 
-        //List<Reply> replies = boardMapper.findReplyList(postId);
-
-        //replies.forEach(parent ->
-        //        replies.stream()
-        //                .filter(child -> parent.getId() == child.getParentReplyId())
-        //                .forEach(child -> parent.getReplyList().add(child))
-        //);
-
-       // List<Reply> result = replies.stream().filter(reply -> reply.getParentReplyId() == 0).collect(Collectors.toList());
-       // return new Paging<>(total, result, pageable);
-   // }
+    public List<Reply> getReplyList(Integer postId) {
+        if(postId == null) throw new ResultCodeException(ResultCode.NOT_EXIST_POST_ID);
+        return replyMapper.selectReplyListByPostId(postId);
+    }
 }

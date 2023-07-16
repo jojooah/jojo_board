@@ -29,7 +29,7 @@ public class ReplyController {
 
     }
 
-    @PatchMapping("/board/{board_id}/post/{post_id}/reply") //댓글수정
+    @PatchMapping("/board/{board_id}/post/{post_id}/reply") //댓글수정R
     public ResponseBase updateReply(@RequestBody Reply reply) {
         ResponseBase responseBase = new ResponseBase<>();
 

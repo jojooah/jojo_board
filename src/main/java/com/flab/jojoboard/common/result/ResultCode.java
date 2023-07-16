@@ -48,6 +48,8 @@ public enum ResultCode {
     NOT_EXIST_REPLY(3002,"댓글 객체가 없습니다.",HttpStatus.BAD_REQUEST),
     NOT_REPLY_WRITTER(3003,"댓글 작성자만 댓글을 수정/삭제할 수 있습니다",HttpStatus.BAD_REQUEST),
     WRONG_REPLY_PWD(3004,"비밀번호가 틀렸습니다.",HttpStatus.BAD_REQUEST),
+    NOT_EXSIT_REPLY_ID (3005,"댓글 ID가 없습니다",HttpStatus.BAD_REQUEST),
+    NOT_EXIST_REPLY_CONTENT(3006,"댓글 내용을 입력해주세요",HttpStatus.BAD_REQUEST),
     ERROR_ETC(9999, "기타 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private int code;

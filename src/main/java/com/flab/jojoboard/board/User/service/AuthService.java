@@ -71,7 +71,7 @@ public class AuthService {
      * @throws ResultCodeException
      */
      public void checkReplyAuth(Reply reply) throws ResultCodeException {
-        if(reply == null) throw new ResultCodeException(ResultCode.NOT_EXIST_REPLY);
+        if(reply.getId() == null) throw new ResultCodeException(ResultCode.NOT_EXSIT_REPLY_ID);
 
         Reply findReply = replyMapper.selectReplyById(reply.getId());
 

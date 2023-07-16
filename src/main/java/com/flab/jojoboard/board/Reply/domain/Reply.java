@@ -13,7 +13,7 @@ import org.apache.ibatis.type.Alias;
 @EqualsAndHashCode(callSuper = true)
 @Alias(value = "Reply")
 public class Reply extends Common {
-    private int id;
+    private Integer id;
     private String content;
     private String nonMemNick;
     private String nonMemPw;
