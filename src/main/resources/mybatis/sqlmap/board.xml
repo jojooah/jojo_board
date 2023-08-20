@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flab.jojoboard.board.Board.dao.BoardMapper">
+
+    <select id="selectBoardTypeByBoardId" parameterType="String" resultType="String">
+        SELECT /*board.selectBoardTypeByBoardId*/
+            board_type_id
+        FROM
+            board
+        WHERE
+            id = #{boardId}
+    </select>
+
+    <select id="selectRegIdByPostId" parameterType="String" resultType="String">
+        SELECT /*board.electRegIdByPostId*/
+            reg_id
+        FROM
+            post
+        WHERE
+            id = #{postId}
+    </select>
+
+    <select id="findBoardTypeByBoardId" parameterType="int" resultType="BoardType">
+        SELECT /*board.findBoardTypeByBoardId*/
+            t2.anonymouse
+             , t2.non_mem
+             , t2.reply
+        FROM
+            board t1
+                INNER JOIN board_type t2 ON t1.board_type_id = t2.id
+        WHERE t1.id = #{boardId}
+    </select>
+
+    <select id="findBoardTypeByPostId" parameterType="int" resultType="boardType">
+        SELECT /*board.findBoardTypeByPostId*/
+            t3.anonymouse
+             , t3.non_mem
+             , t3.reply
+        FROM
+            post t1
+                INNER JOIN board t2 ON t1.board_id = t2.id
+                INNER JOIN board_type t3 ON t2.board_type_id = t3.id
+        WHERE
+            t1.id = #{postId}
+    </select>
+
+
+</mapper>

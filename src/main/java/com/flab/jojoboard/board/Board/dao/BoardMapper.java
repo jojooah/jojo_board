@@ -3,12 +3,12 @@ package com.flab.jojoboard.board.Board.dao;
 import com.flab.jojoboard.board.Board.domain.Board;
 import com.flab.jojoboard.board.Board.domain.BoardType;
 import com.flab.jojoboard.board.Post.domain.Post;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Mapper
 public interface BoardMapper {
 
     /**
@@ -49,12 +49,5 @@ public interface BoardMapper {
      */
     BoardType selectBoardTypeByPostId(int postId);
 
-    /**
-     * 해당 댓글의 대댓글 수
-     *
-     * @param parentReplyId
-     * @return int
-     */
-    int countReplyTotalByParentReplyId(int parentReplyId);
 
 }

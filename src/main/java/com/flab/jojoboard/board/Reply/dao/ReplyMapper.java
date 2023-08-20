@@ -1,10 +1,12 @@
 package com.flab.jojoboard.board.Reply.dao;
 
 import com.flab.jojoboard.board.Reply.domain.Reply;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface ReplyMapper {
     /**
      * 댓글 생성

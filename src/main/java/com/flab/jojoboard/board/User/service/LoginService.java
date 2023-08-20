@@ -16,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.EditorKit;
-
 import java.util.Objects;
 import java.util.UUID;
 
@@ -46,20 +44,19 @@ public class LoginService {
      * 로그인
      * 토큰을 만들어 쿠키에 넣고, 브라우저에 보내준다
      */
-    public boolean login(UserDTO userDTO) {
+    public HttpHeaders login(UserDTO userDTO) {
         checkIdAndPwd(userDTO);
 
-        issueAccessToken(userDTO.getUserId()); //액세스 토큰 발급
         issueRefreshToken(userDTO.getUserId()); //리프레쉬 토큰 발급
+        return issueAccessToken(userDTO.getUserId()); //액세스 토큰 발급
 
-        return true;
     }
 
-    void issueAccessToken(String userId){
+    HttpHeaders issueAccessToken(String userId){
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer "+jwtService.createAccessToken(userId)); // acceses token authorization헤더에 담는다
-
+        return headers;
     }
 
     @Transactional
@@ -69,7 +66,7 @@ public class LoginService {
         userMapper.insertRefreshToken(userId,uuid);
 
         Cookie cookie = new Cookie(Constants.COOKIE_NAME_REFRESH_TOKEN, jwtService.createRefreshToken(userId+" "+uuid)); //  refresh token은 쿠키에 담는다
-        cookie.setMaxAge( 7 * 24 * 60 * 60 * 1000); //일주일로 설정
+        cookie.setMaxAge( 7 * 24 * 60 * 60); //일주일로 설정
         response.addCookie(cookie);
 
     }

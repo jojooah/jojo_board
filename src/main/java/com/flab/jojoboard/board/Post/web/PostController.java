@@ -21,7 +21,7 @@ public class PostController {
 
     private final PostService postService;
 
-    //  @ReturnDataAOP
+
     @GetMapping("/post/list") //글목록
     public ResponseBase<List<Post>> getPostList(@RequestParam("boardId") int boardId) {
         List<Post> postList = null;
@@ -35,7 +35,7 @@ public class PostController {
         return responseBase;
     }
 
-    // @ReturnDataAOP
+
     @GetMapping("/post/{postId}") //게시글 가져오기
     public ResponseBase<Post> getPost(@PathVariable("postId") int postId) {
         ResponseBase<Post> responseBase = new ResponseBase<>();

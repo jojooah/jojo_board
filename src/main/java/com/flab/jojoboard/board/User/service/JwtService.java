@@ -25,7 +25,6 @@ public class JwtService {
     //토큰 생성
     //HS512 알고리즘을 통해 암호화
     public String createAccessToken(String userId) {
-
         return Jwts.builder()
                 .setSubject("board/user")
                 .setId(UUID.randomUUID().toString())
@@ -36,6 +35,7 @@ public class JwtService {
                         SignatureAlgorithm.HS512
                 )
                 .compact();
+
     }
 
     public String createRefreshToken(String uuid) {
@@ -44,7 +44,7 @@ public class JwtService {
                 .setSubject("board/user")
                 .setId(UUID.randomUUID().toString())
                 .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.WEEKS)))
+                .setExpiration(Date.from(Instant.now().plusSeconds(604800))) // 일주일
                 .claim(REFRESH_TOKEN, uuid) // 고유값이 들어간다
                 .signWith(Keys.hmacShaKeyFor(Constants.REFRESH_TOKEN_KEY.getBytes(StandardCharsets.UTF_8)),
                         SignatureAlgorithm.HS512

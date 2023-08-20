@@ -18,9 +18,9 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user")
-    public ResponseBase insertUser(@RequestBody UserDTO userDTO) {
-        ResponseBase responseBase = new ResponseBase<>();
+    @PostMapping("/user") //회원가입
+    public ResponseBase<ResultCode> insertUser(@RequestBody UserDTO userDTO) {
+        ResponseBase<ResultCode> responseBase = new ResponseBase<>();
 
         userService.insertUser(userDTO);
         responseBase.setResultCode(ResultCode.SUCCESS);

@@ -10,8 +10,10 @@ import com.flab.jojoboard.board.Reply.domain.Reply;
 import com.flab.jojoboard.common.result.ResultCode;
 import com.flab.jojoboard.common.result.ResultCodeException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -44,6 +46,7 @@ public class AuthService {
      * @throws ResultCodeException
      */
     public void isAccessPossibleBoardByBoardId(Integer boardId) throws ResultCodeException {
+        log.error(boardId.toString());
         if(boardId == null) throw new ResultCodeException(ResultCode.NOT_EXIST_BOARD_ID);
 
         BoardType boardType = boardMapper.selectBoardTypeByBoardId(boardId);

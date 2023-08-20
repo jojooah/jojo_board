@@ -6,13 +6,14 @@ import com.flab.jojoboard.board.User.service.LoginService;
 import com.flab.jojoboard.board.User.service.UserService;
 import com.flab.jojoboard.common.domain.ResponseBase;
 import com.flab.jojoboard.common.result.ResultCode;
+import com.flab.jojoboard.common.result.ResultCodeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,14 +24,15 @@ public class LoginController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseBase login(@RequestBody UserDTO userDTO)  {
+    public ResponseEntity login(@RequestBody UserDTO userDTO)  {
         ResponseBase responseBase = new ResponseBase<>();
-
+        HttpHeaders header;
         userService.checkEmailAuth(userDTO.getUserId());
-        loginService.login(userDTO);
+        header=loginService.login(userDTO);
+
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).headers(header).body(responseBase);
 
     }
 
