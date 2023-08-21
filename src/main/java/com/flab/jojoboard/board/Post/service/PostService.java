@@ -22,7 +22,7 @@ public class PostService {
 
 
     /** 게시글 가져오기*/
-    public Post getPost(int postId) throws ResultCodeException {
+    public Post getPost(int postId)  {
         Post post = postMapper.selectPostByPostId(postId);
         if (Objects.isNull(post)) throw new ResultCodeException(ResultCode.POST_NOT_EXISTS);
 
@@ -30,16 +30,16 @@ public class PostService {
     }
 
     /**게시글 목록 가져오기*/
-    public List<Post> getPosts(int boardId) throws ResultCodeException {
+    public List<Post> getPosts(Integer boardId) {
+        if( Objects.isNull(boardId)) throw new ResultCodeException(ResultCode.NOT_EXIST_BOARD_ID);
         List<Post> postList = postMapper.selectPostsByBoardId(boardId);
-        if (postList.size() == 0) throw new ResultCodeException(ResultCode.POSTLIST_NOT_EXISTS);
 
         return postList;
     }
 
     /**게시글 작성*/
     @Transactional
-    public void insertPost(PostDTO postDTO) throws ResultCodeException {
+    public void insertPost(PostDTO postDTO) {
         if (ObjectUtils.isEmpty(postDTO.getTitle())) throw new ResultCodeException(ResultCode.NEED_POST_TITLE);
         if (ObjectUtils.isEmpty(postDTO.getContent())) throw new ResultCodeException(ResultCode.NEED_REPLY_CONTENT);
 
@@ -48,7 +48,7 @@ public class PostService {
 
     /**게시글 삭제*/
     @Transactional
-    public void deletePost(PostDTO postDTO) throws ResultCodeException {
+    public void deletePost(PostDTO postDTO) {
         Post post = postMapper.selectPostByPostId(postDTO.getId());
         if (Objects.isNull(post)) throw new ResultCodeException(ResultCode.POST_ALREADY_DELETED);
 
@@ -58,7 +58,7 @@ public class PostService {
 
     /**게시글 수정*/
     @Transactional
-    public void updatePost(PostDTO postDTO) throws ResultCodeException {
+    public void updatePost(PostDTO postDTO) {
         if (Objects.isNull(postMapper.selectPostByPostId(postDTO.getId())))
             throw new ResultCodeException(ResultCode.POST_NOT_EXISTS);
         if (ObjectUtils.isEmpty(postDTO.getTitle())) throw new ResultCodeException(ResultCode.NEED_POST_TITLE);

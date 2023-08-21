@@ -7,7 +7,7 @@ import org.apache.ibatis.type.Alias;
 
 @Getter
 @Setter
-@Alias(value = "BoardType_")
+@Alias(value = "BoardType")
 public class BoardType extends Common {
     private int id;
     private boolean anonymouse;

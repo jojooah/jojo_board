@@ -102,5 +102,5 @@ public interface UserMapper {
      * @param userId
      * @param refreshToken
      */
-    void insertRefreshToken(@Param("userId") String userId, @Param("refreshToken") String refreshToken);
+    void updateRefreshToken(@Param("userId") String userId, @Param("refreshToken") String refreshToken);
 }

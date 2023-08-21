@@ -52,10 +52,10 @@ public class LoginService {
 
     }
 
-    HttpHeaders issueAccessToken(String userId){
+    HttpHeaders issueAccessToken(String userId) {
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer "+jwtService.createAccessToken(userId)); // acceses token authorization헤더에 담는다
+        headers.set("Authorization", "Bearer " + jwtService.createAccessToken(userId)); // acceses token authorization헤더에 담는다
         return headers;
     }
 
@@ -63,7 +63,7 @@ public class LoginService {
     void issueRefreshToken(String userId){
 
         String uuid = UUID.randomUUID().toString();
-        userMapper.insertRefreshToken(userId,uuid);
+        userMapper.updateRefreshToken(userId,uuid);
 
         Cookie cookie = new Cookie(Constants.COOKIE_NAME_REFRESH_TOKEN, jwtService.createRefreshToken(userId+" "+uuid)); //  refresh token은 쿠키에 담는다
         cookie.setMaxAge( 7 * 24 * 60 * 60); //일주일로 설정
@@ -80,8 +80,9 @@ public class LoginService {
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             String LoginId = checkValidRefreshTokenAndGetUserId();
 
-           if (!LoginId.isEmpty()) {
-               issueAccessToken(LoginId);  //리프레쉬 토큰이 유효하면 액세스토큰 발급
+           if (!Objects.isNull(LoginId)) {
+               HttpHeaders headers=issueAccessToken(LoginId);  //리프레쉬 토큰이 유효하면 액세스토큰 발급
+               response.setHeader("Authorization",headers.getFirst("Authorization"));
                return userMapper.selectLoginUserByUserId(LoginId); //유저 아이디로 유저정보 가져오기
            }
         }

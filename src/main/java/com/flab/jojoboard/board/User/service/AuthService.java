@@ -29,7 +29,7 @@ public class AuthService {
      * @return
      * @throws ResultCodeException
      */
-    public void checkPostAuth(PostDTO post) throws ResultCodeException {
+    public void checkPostAuth(PostDTO post) {
         if(post == null) throw new ResultCodeException(ResultCode.POST_NOT_EXISTS);
 
         Post findPost = postMapper.selectPostByPostId(post.getId());
@@ -45,11 +45,11 @@ public class AuthService {
      * @return
      * @throws ResultCodeException
      */
-    public void isAccessPossibleBoardByBoardId(Integer boardId) throws ResultCodeException {
-        log.error(boardId.toString());
+    public void isAccessPossibleBoardByBoardId(Integer boardId)  {
         if(boardId == null) throw new ResultCodeException(ResultCode.NOT_EXIST_BOARD_ID);
 
         BoardType boardType = boardMapper.selectBoardTypeByBoardId(boardId);
+       // log.error(loginService.getLoginUserInfo().toString());
         if(boardType.needToLogin() && loginService.isNotLogin()) throw new ResultCodeException(ResultCode.PLEASE_LOGIN);
 
     }
@@ -73,7 +73,7 @@ public class AuthService {
      * @return
      * @throws ResultCodeException
      */
-     public void checkReplyAuth(Reply reply) throws ResultCodeException {
+     public void checkReplyAuth(Reply reply) {
         if(reply.getId() == null) throw new ResultCodeException(ResultCode.NOT_EXSIT_REPLY_ID);
 
         Reply findReply = replyMapper.selectReplyById(reply.getId());

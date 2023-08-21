@@ -8,6 +8,7 @@ import com.flab.jojoboard.common.domain.ResponseBase;
 import com.flab.jojoboard.common.result.ResultCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,9 +22,8 @@ public class PostController {
 
     private final PostService postService;
 
-
     @GetMapping("/post/list") //글목록
-    public ResponseBase<List<Post>> getPostList(@RequestParam("boardId") int boardId) {
+    public ResponseEntity<ResponseBase<List<Post>>> getPostList(@RequestParam("boardId") int boardId) {
         List<Post> postList = null;
         ResponseBase<List<Post>> responseBase = new ResponseBase<>();
 
@@ -32,9 +32,8 @@ public class PostController {
         responseBase.setData(postList);
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
     }
-
 
     @GetMapping("/post/{postId}") //게시글 가져오기
     public ResponseBase<Post> getPost(@PathVariable("postId") int postId) {
@@ -43,7 +42,6 @@ public class PostController {
         authService.isAccessPossibleBoardByPostId(postId);
         responseBase.setData(postService.getPost(postId));
         responseBase.setResultCode(ResultCode.SUCCESS);
-
 
         return responseBase;
     }

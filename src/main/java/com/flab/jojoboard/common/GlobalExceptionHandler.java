@@ -17,8 +17,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ResultCodeException.class})
     protected ResponseEntity<Object> handleResultCodeException(ResultCodeException re) {
         ResponseBase responseBase = new ResponseBase();
+
         responseBase.setResultCode(re.getResultCode());
         responseBase.setMessage(re.getResultCode().getMsg());
+        log.error(re.getResultCode().getMsg());
 
         return ResponseEntity.status(re.getResultCode().getHttpStatus()).body(responseBase);
     }
@@ -35,7 +37,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBase);
     }
-
-
 
 }

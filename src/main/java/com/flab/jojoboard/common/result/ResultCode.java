@@ -34,7 +34,8 @@ public enum ResultCode {
 
     //2000번대 게시글 관련 에러
     POST_NOT_EXISTS(2000, "해당 글이 존재하지 않습니다.", HttpStatus.NO_CONTENT),
-    POSTLIST_NOT_EXISTS(2001, "해당 게시판에 작성된 글이 없습니다.", HttpStatus.NO_CONTENT),
+    //POSTLIST_NOT_EXISTS(2001, "해당 게시판에 작성된 글이 없습니다.", HttpStatus.NO_CONTENT),
+    //POSTLIST_NOT_EXISTS(2001, "해당 게시판에 작성된 글이 없습니다.", HttpStatus.BAD_REQUEST),
     FAIL_INSERT_POST(2003, "게시글 등록에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     NEED_POST_TITLE(2004, "게시글 제목을 입력해 주세요.", HttpStatus.BAD_REQUEST),
     NEED_POST_CONTENT(2005, "게시글 내용을 입력해 주세요.", HttpStatus.BAD_REQUEST),

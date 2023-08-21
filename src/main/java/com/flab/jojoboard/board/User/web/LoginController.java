@@ -6,7 +6,6 @@ import com.flab.jojoboard.board.User.service.LoginService;
 import com.flab.jojoboard.board.User.service.UserService;
 import com.flab.jojoboard.common.domain.ResponseBase;
 import com.flab.jojoboard.common.result.ResultCode;
-import com.flab.jojoboard.common.result.ResultCodeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
