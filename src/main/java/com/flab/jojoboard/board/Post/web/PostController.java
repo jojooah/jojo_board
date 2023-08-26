@@ -36,46 +36,49 @@ public class PostController {
     }
 
     @GetMapping("/post/{postId}") //게시글 가져오기
-    public ResponseBase<Post> getPost(@PathVariable("postId") int postId) {
+    public ResponseEntity<ResponseBase<Post>> getPost(@PathVariable("postId") int postId) {
         ResponseBase<Post> responseBase = new ResponseBase<>();
 
         authService.isAccessPossibleBoardByPostId(postId);
         responseBase.setData(postService.getPost(postId));
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
     }
 
     @PostMapping("/post")//글쓰기
-    public ResponseBase insertPost(@RequestBody PostDTO postDTO) {
-        ResponseBase responseBase = new ResponseBase<>();
+    public ResponseEntity<ResponseBase<Integer>> insertPost(@RequestBody PostDTO postDTO) {
+        ResponseBase<Integer> responseBase = new ResponseBase<>();
         authService.isAccessPossibleBoardByBoardId(postDTO.getBoardId());
-        postService.insertPost(postDTO);
-        responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        responseBase.setResultCode(ResultCode.SUCCESS);
+        responseBase.setData(postService.insertPost(postDTO));
+
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
+
     }
 
     @DeleteMapping("/post/{post_id}") //게시글 삭제
-    public ResponseBase deletePost(@RequestBody PostDTO postDTO) {
-        ResponseBase responseBase = new ResponseBase<>();
+    public  ResponseEntity<ResponseBase<ResultCode>> deletePost(@RequestBody PostDTO postDTO) {
+        ResponseBase<ResultCode> responseBase = new ResponseBase<>();
         authService.isAccessPossibleBoardByPostId(postDTO.getId());
         authService.checkPostAuth(postDTO);
         postService.deletePost(postDTO); //권한 체크를 위해 객체를 넣음
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
     }
 
     @PatchMapping("/post/{post_id}") //글수정
-    public ResponseBase updatePost(@RequestBody PostDTO postDTO) {
-        ResponseBase responseBase = new ResponseBase<>();
+    public  ResponseEntity<ResponseBase<ResultCode>> updatePost(@RequestBody PostDTO postDTO) {
+        ResponseBase<ResultCode> responseBase = new ResponseBase<>();
         authService.isAccessPossibleBoardByPostId(postDTO.getId());
         authService.checkPostAuth(postDTO);
         postService.updatePost(postDTO);//권한 체크를 위해 객체를 넣음
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
+
     }
 
 }

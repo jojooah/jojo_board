@@ -24,8 +24,8 @@
         WHERE t1.id = #{boardId}
     </select>
 
-    <select id="findBoardTypeByPostId" parameterType="int" resultType="boardType">
-        SELECT /*board.findBoardTypeByPostId*/
+    <select id="selectBoardTypeByPostId" parameterType="int" resultType="boardType">
+        SELECT /*board.selectBoardTypeByPostId*/
             t3.anonymouse
              , t3.non_mem
              , t3.reply

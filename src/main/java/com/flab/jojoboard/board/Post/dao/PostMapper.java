@@ -27,7 +27,7 @@ public interface PostMapper {
     * 게시글 작성
     * @param postDTO
     */
-   void insertPost(@Param("postDTO") PostDTO postDTO);
+   int insertPost(@Param("postDTO") PostDTO postDTO);
 
    /**
     * 게시글 수정

@@ -36,7 +36,7 @@
             db_status='OK'
     </select>
 
-    <insert id="insertPost" parameterType="postDTO">
+    <insert id="insertPost" parameterType="postDTO" useGeneratedKeys="true" keyProperty="id" >
         INSERT /*insertPost*/
         INTO post
             (

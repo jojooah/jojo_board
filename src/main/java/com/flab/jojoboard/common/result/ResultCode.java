@@ -30,10 +30,11 @@ public enum ResultCode {
     NEED_EMAIL(1018, "이메일을 입력하세요", HttpStatus.BAD_REQUEST),
     WRONg_URL(1019, "올바르지 않은 url입니다", HttpStatus.BAD_REQUEST),
     NO_PATHVARIABLE(1020, "path variable이 없습니다", HttpStatus.BAD_REQUEST),
-    NOT_WITTER(1020,"게시물 작성자가 아닙니다.",HttpStatus.BAD_REQUEST),
+    NOT_WITTER(1021,"게시물 작성자가 아닙니다.",HttpStatus.BAD_REQUEST),
+    NOT_EXIST_NICKNAME(1022,"닉네임을 입력하세요.",HttpStatus.BAD_REQUEST),
 
     //2000번대 게시글 관련 에러
-    POST_NOT_EXISTS(2000, "해당 글이 존재하지 않습니다.", HttpStatus.NO_CONTENT),
+    POST_NOT_EXISTS(2000, "해당 글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
     //POSTLIST_NOT_EXISTS(2001, "해당 게시판에 작성된 글이 없습니다.", HttpStatus.NO_CONTENT),
     //POSTLIST_NOT_EXISTS(2001, "해당 게시판에 작성된 글이 없습니다.", HttpStatus.BAD_REQUEST),
     FAIL_INSERT_POST(2003, "게시글 등록에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),

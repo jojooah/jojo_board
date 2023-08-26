@@ -19,18 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class LoginController {
     private final LoginService loginService;
-    private final MailService mailService;
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody UserDTO userDTO)  {
-        ResponseBase responseBase = new ResponseBase<>();
+    public ResponseEntity<ResponseBase<ResultCode>> login(@RequestBody UserDTO userDTO)  {
+        ResponseBase<ResultCode> responseBase = new ResponseBase<>();
         HttpHeaders header;
         userService.checkEmailAuth(userDTO.getUserId());
         header=loginService.login(userDTO);
 
         responseBase.setResultCode(ResultCode.SUCCESS);
-
         return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).headers(header).body(responseBase);
 
     }

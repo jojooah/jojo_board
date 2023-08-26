@@ -42,7 +42,8 @@ public class LoginService {
 
     /**
      * 로그인
-     * 토큰을 만들어 쿠키에 넣고, 브라우저에 보내준다
+     * 액세스 토큰을 만들어 헤더에 넣고, 브라우저에 보내준다
+     * 레프레쉬토큰을 만들어 쿠키에 넣고, 브라우저에 보내준다
      */
     public HttpHeaders login(UserDTO userDTO) {
         checkIdAndPwd(userDTO);
@@ -94,6 +95,7 @@ public class LoginService {
         return null;
     }
 
+    /** 리프레쉬토큰 확인 */
     public String checkValidRefreshTokenAndGetUserId() {
         Cookie[] cookies = request.getCookies();
         String userId = "";

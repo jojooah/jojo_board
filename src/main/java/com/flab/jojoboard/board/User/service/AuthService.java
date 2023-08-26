@@ -36,7 +36,6 @@ public class AuthService {
         if(findPost.isWrittenByMem() && loginService.isNotLogin()) throw new ResultCodeException(ResultCode.PLEASE_LOGIN);
         if(findPost.isWrittenByMem() && !loginService.getLoginUserInfo().getUserId().equals(findPost.getRegId())) throw new ResultCodeException(ResultCode.NOT_WITTER);
         if(findPost.isNotWrittenByMem() && !findPost.getNonMemPwd().equals(post.getNonMemPwd())) throw new ResultCodeException(ResultCode.WRONG_POST_PWD);
-
     }
 
     /***
@@ -49,7 +48,6 @@ public class AuthService {
         if(boardId == null) throw new ResultCodeException(ResultCode.NOT_EXIST_BOARD_ID);
 
         BoardType boardType = boardMapper.selectBoardTypeByBoardId(boardId);
-       // log.error(loginService.getLoginUserInfo().toString());
         if(boardType.needToLogin() && loginService.isNotLogin()) throw new ResultCodeException(ResultCode.PLEASE_LOGIN);
 
     }

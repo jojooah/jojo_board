@@ -3,6 +3,7 @@ package com.flab.jojoboard.board.Post.service;
 import com.flab.jojoboard.board.Post.dao.PostMapper;
 import com.flab.jojoboard.board.Post.domain.Post;
 import com.flab.jojoboard.board.Post.domain.dto.PostDTO;
+import com.flab.jojoboard.board.User.service.LoginService;
 import com.flab.jojoboard.common.result.ResultCode;
 import com.flab.jojoboard.common.result.ResultCodeException;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.Objects;
 public class PostService {
 
     private final PostMapper postMapper;
-
+    private final LoginService loginService;
 
     /** 게시글 가져오기*/
     public Post getPost(int postId)  {
@@ -39,11 +40,23 @@ public class PostService {
 
     /**게시글 작성*/
     @Transactional
-    public void insertPost(PostDTO postDTO) {
+    public int insertPost(PostDTO postDTO) {
         if (ObjectUtils.isEmpty(postDTO.getTitle())) throw new ResultCodeException(ResultCode.NEED_POST_TITLE);
         if (ObjectUtils.isEmpty(postDTO.getContent())) throw new ResultCodeException(ResultCode.NEED_REPLY_CONTENT);
 
+        boolean isLogin=loginService.isLogin();
+
+        if(!isLogin){ //로그인이 되어있지않은 상태
+            if(postDTO.getNonMemNick().isEmpty()) throw new ResultCodeException(ResultCode.NOT_EXIST_NICKNAME);
+            if(postDTO.getNonMemPwd().isEmpty()) throw new ResultCodeException(ResultCode.NEED_PWD);
+            postDTO.setWrittenByMem(false);
+        }else{
+            postDTO.setRegId(loginService.getLoginUserInfo().getUserId());
+            postDTO.setWrittenByMem(true);
+        }
+
         postMapper.insertPost(postDTO);
+        return postDTO.getId();
     }
 
     /**게시글 삭제*/

@@ -7,6 +7,7 @@ import com.flab.jojoboard.common.domain.ResponseBase;
 import com.flab.jojoboard.common.result.ResultCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -19,48 +20,48 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/user") //회원가입
-    public ResponseBase<ResultCode> insertUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<ResponseBase<ResultCode>> insertUser(@RequestBody UserDTO userDTO) {
         ResponseBase<ResultCode> responseBase = new ResponseBase<>();
 
         userService.insertUser(userDTO);
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
     }
 
     @PostMapping("/user/id")
-    public ResponseBase checkUserId(@RequestBody Map<String, String> userId)  {
-        ResponseBase responseBase = new ResponseBase<>();
+    public ResponseEntity<ResponseBase<ResultCode>> checkUserId(@RequestBody Map<String, String> userId)  {
+        ResponseBase<ResultCode> responseBase = new ResponseBase<>();
 
         userService.isExistUserByUserId(userId.get("userId"));
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
     }
 
     @PostMapping("/user/nickname")
-    public ResponseBase checkNickName(@RequestBody Map<String, String> nickName)  {
-        ResponseBase responseBase = new ResponseBase<>();
+    public ResponseEntity<ResponseBase<ResultCode>> checkNickName(@RequestBody Map<String, String> nickName)  {
+        ResponseBase<ResultCode> responseBase = new ResponseBase<>();
 
         userService.isExistUserByNickName(nickName.get("nickName"));
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
     }
 
     @PatchMapping("/user/pwd")
-    public ResponseBase changePwd(@RequestBody UserDTO userDTO)  {
-        ResponseBase responseBase = new ResponseBase<>();
+    public ResponseEntity<ResponseBase<ResultCode>> changePwd(@RequestBody UserDTO userDTO)  {
+        ResponseBase<ResultCode> responseBase = new ResponseBase<>();
 
         userService.changePwd(userDTO);
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
     }
 
     @GetMapping("/user/mailAuth")
-    public ResponseBase mailAuth(@RequestParam("email") String email, @RequestParam("emailKey") String emailKey) {
-        ResponseBase responseBase = new ResponseBase<>();
+    public ResponseEntity<ResponseBase<ResultCode>> mailAuth(@RequestParam("email") String email, @RequestParam("emailKey") String emailKey) {
+        ResponseBase<ResultCode> responseBase = new ResponseBase<>();
 
         MailAuthDTO mailAuthDTO = new MailAuthDTO();
         mailAuthDTO.setEmail(email);
@@ -68,7 +69,7 @@ public class UserController {
         userService.updateEmailAuth(mailAuthDTO);
         responseBase.setResultCode(ResultCode.SUCCESS);
 
-        return responseBase;
+        return ResponseEntity.status(responseBase.getResultCode().getHttpStatus()).body(responseBase);
     }
 
 

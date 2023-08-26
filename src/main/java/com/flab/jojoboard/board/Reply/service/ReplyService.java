@@ -43,6 +43,7 @@ public class ReplyService {
        replyMapper.updateReply(reply);
     }
 
+    @Transactional
     public void deleteReply(Reply reply) {
         if(reply.getId() == null) throw new ResultCodeException(ResultCode.NOT_EXSIT_REPLY_ID);
         replyMapper.updateReply(reply);
