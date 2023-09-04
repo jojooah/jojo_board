@@ -1,6 +1,7 @@
 ﻿# jojo_board
 
-기존의 board 프로젝트를 리팩토링
+1. https://github.com/jojooah/board
+2. https://github.com/jojooah/board_upgrade 리팩토링
 
 [로그인]
 세션을 이용한 방식에서 jwt를 이용한 방식으로 수정
